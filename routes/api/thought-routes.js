@@ -2,17 +2,25 @@ const router = require('express').Router();
 const { User, Thought } = require('../../models');
 
 // Create a new Thought
-router.post('/:id', ({ params, body }, res) => {
+router.post('/', ({ body }, res) => {
     Thought.create(body)
-    .then(({ _id }) => {
-        return User.findOneAndUpdate(
-          { _id: params.id },
-          { $push: { thoughts: _id } }, // All of the MongoDB-based functions like $push start with a dollar sign ($), making it easier to look at functionality and know what is built-in to MongoDB and what is a custom noun the developer is using
-          { new: true, runValidators: true }
-        );
-      })
-    .then(dbThoughtData => res.json(dbThoughtData))
+    .then(dbThoughtData => {
+        User.findOneAndUpdate(
+            { _id: body.userId },
+            { $push: { thoughts: dbThoughtData._id } },
+            { new: true }
+        )
+        .then(dbUserData => {
+            if (!dbUserData) {
+                res.status(404).json({ message: 'No user found with this id' });
+                return;
+            }
+            res.json(dbUserData);
+        })
+        .catch(err => res.json(err));
+    })
     .catch(err => res.status(400).json(err));
+    
 });
 
 // Get thoughts
@@ -35,6 +43,45 @@ router.put('/:id', ({ params, body }, res) => {
             return;
           }
           res.json(dbThoughtData)
+        }).catch(err => {
+          res.json(err)
+        })
+});
+
+// react to a thought
+router.post('/:thoughtId/reactions/', ({ params, body }, res) => {
+    Thought.findOneAndUpdate(
+        { _id: params.thoughtId }, 
+        { $addToSet: { reactions: body }}, 
+        { new: true, runValidators: true })
+        .then(dbThoughtData => {
+          if(!dbThoughtData){
+            res.json({ message: 'no thought with that id found'})
+            return;
+          }
+          res.json(dbThoughtData);
+        }).catch(err => {
+          res.json(err)
+        })
+});
+
+// delete a reaction to a thought
+router.delete('/:thoughtId/reactions/:reactionId', ({ params }, res) => {
+    console.log('=======thought Id========');
+    console.log(params.thoughtId);
+    console.log('=======reaction Id========');
+    console.log(params.reactionId)
+    console.log('===============');
+    Thought.findOneAndUpdate(
+        { _id: params.thoughtId }, 
+        { $pull: { reactions: { reactionId: params.reactionId } } }, 
+        { new: true })
+        .then(dbThoughtData => {
+          if(!dbThoughtData){
+            res.json({ message: 'no thought with that id found' })
+            return;
+          }
+          res.json(dbThoughtData);
         }).catch(err => {
           res.json(err)
         })

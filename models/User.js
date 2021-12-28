@@ -25,7 +25,6 @@ const UserSchema = new Schema (
             {
                 type: Schema.Types.ObjectId, // 
                 ref: 'User' // data comes from the Thought model
-                // The ref property is especially important because it tells the Pizza model which documents to search to find the right comments
             }
         ]
     },
