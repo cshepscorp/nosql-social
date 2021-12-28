@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { User, Thoughts } = require('../../models');
+const { User, Thought } = require('../../models');
 
 // Create a new User
 router.post('/', ({ body }, res) => {
@@ -52,13 +52,61 @@ router.delete('/:id', ({ params }, res) => {
     User.findOneAndDelete(
         { 
           _id: params.id 
-        }).then(dbUserData => {
+        })
+        .then(dbUserData => {
           if(!dbUserData){
-            res.json({ message: 'No user with that id was found'})
+            res.json({ message: 'No user with that id was found'});
+            return;
+          }
+          User.updateMany( // remove user from others' friend groups
+            { _id: { $in: dbUserData.friends } },
+            { $pull: { friends: params.id } }
+          )
+          .then(() => {     
+                // remove any of this users thoughts
+                Thought.deleteMany({ username: dbUserData.username })
+                .then(() => {
+                    res.json({ message: 'Successfully deleted user' }); 
+                })
+                .catch(err => { res.json(err) })
+            })
+            .catch(err => { res.json(err) })
+        })
+        .catch(err => { res.json(err) })
+});
+
+// FRIEND routes
+// Create a new Friend
+router.post('/:userId/friends/:friendId', ({ params }, res) => {
+    User.findOneAndUpdate(
+        { _id: params.userId }, 
+        { $addToSet: { friends: params.friendId } }, 
+        { new: true, runValidators: true })
+        .then(dbUserData => {
+          if(!dbUserData){
+            res.json({ message: 'no User with that id found'})
             return;
           }
           res.json(dbUserData)
-        }).catch(err => res.json(err))
+        })
+        .catch(err => { res.json(err) })
+});
+
+// Delete a Friend
+router.delete('/:userId/friends/:friendId', ({ params }, res) => {
+    User.findOneAndUpdate(
+        { _id: params.userId }, 
+        { $pull: { friends: params.friendId } }, 
+        { new: true, runValidators: true })
+        .then(dbUserData => {
+          if(!dbUserData){
+            res.json({ message: 'no User with that id found'})
+            return;
+          }
+          res.json(dbUserData)
+        }).catch(err => {
+          res.json(err)
+        })
 });
 
 module.exports = router;
