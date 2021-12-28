@@ -22,7 +22,7 @@
   <a name="usage"></a>
   ## Usage
   Walkthrough Videos:\
-  How to Start the server, adding and editing Users, adding and removing Friends. (https://watch.screencastify.com/v/qCjWnm6q5aXH73Jl4nhy) \
+  How to Start the server, adding and editing Users, adding and removing Friends and Thoughts. (https://watch.screencastify.com/v/qCjWnm6q5aXH73Jl4nhy) \
   How to Add Thoughts and Reactions and delete thoughts when a user is deleted. (https://watch.screencastify.com/v/EwUGRHho6VrCtnWSzFIW)
 
   
