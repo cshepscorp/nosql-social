@@ -12,7 +12,7 @@ const ReactionSchema = new Schema(
             type: String,
             required: 'You need to input a reaction',
             trim: true,
-            max: 280
+            validate: [({ length }) => length <= 280, 'Your reaction needs to be less than 280 characters.']
         },
         username: {
             type: String,
@@ -43,8 +43,7 @@ const ThoughtSchema = new Schema (
         thoughtText: {
             type: String,
             required: 'Please enter a valid thought',
-            min: 1,
-            max: 280
+            validate: [({ length }) => length >= 1 && length <= 280, 'Your thought should be less than 280 characters.']
         },
         createdAt: {
             type: Date,

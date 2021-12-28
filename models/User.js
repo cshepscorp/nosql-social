@@ -36,7 +36,7 @@ const UserSchema = new Schema (
         },
         id: false // set id to false because this is a virtual that Mongoose returns, and we don’t need it.
     }
-)
+);
 
 UserSchema.virtual('friendCount').get(function() {
     return this.friends.length;
