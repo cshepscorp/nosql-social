@@ -11,6 +11,7 @@
   <a name="about"></a>
   ## Description
   API end routes set up for a social network that allows a user to create an account, add and remove thoughts and reactions to thoughts.
+  ![Image of the api routes being tested in Insomnia](assets/images/social-api-screenshot.jpg)
 
   <a name="installation"></a>
   ## Installation
