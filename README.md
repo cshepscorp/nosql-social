@@ -4,6 +4,7 @@
   * [ Description ](#about)
   * [ Installation ](#installation)
   * [ Usage ](#usage)
+  * [ Technologies ](#tech)
   * [ License ](#license)
   * [ Questions ](#questions)
 
@@ -16,7 +17,7 @@
   run `git clone https://github.com/cshepscorp/nosql-social` to clone onto your machine\
   run `npm i` to install the appropriate packages for this application\
   `npm start` to run your server\
-  You will need access to have access to MongoDB on your machine.\
+  You will need to have access to MongoDB on your machine.\
   Instructions for installing MongoDB can be found here: (https://docs.mongodb.com/manual/installation/)
 
   <a name="usage"></a>
@@ -25,7 +26,13 @@
   How to Start the server, adding and editing Users, adding and removing Friends and Thoughts. (https://watch.screencastify.com/v/qCjWnm6q5aXH73Jl4nhy) \
   How to Add Thoughts and Reactions and delete thoughts when a user is deleted. (https://watch.screencastify.com/v/EwUGRHho6VrCtnWSzFIW)
 
-  
+  <a name="tech"></a>
+  ## Technologies
+  JavaScript\
+  Node.js\
+  Express.js\
+  MongoDB\
+  Mongoose\
 
   <a name="license"></a>
   ## License
