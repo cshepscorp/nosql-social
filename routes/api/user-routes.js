@@ -1,15 +1,30 @@
 const router = require('express').Router();
-const { User } = require('../../models');
+const { User, Thoughts } = require('../../models');
 
 // Create a new User
 router.post('/', ({ body }, res) => {
     User.create(body)
     .then(dbUserData => res.json(dbUserData))
     .catch(err => res.status(400).json(err));
-  });
+});
 
 router.get('/', (req, res) => {
     User.find()
+    .then(dbUserData => {
+        res.json(dbUserData);
+      })
+      .catch(err => {
+        res.json(err);
+      });
+});
+
+router.get('/:id', ({ params }, res) => {
+    User.findOne({ _id: params.id })
+      .populate({ 
+        path: 'thoughts',
+        select: '-__v'
+      })
+      .select('-__v')
     .then(dbUserData => {
         res.json(dbUserData);
       })
