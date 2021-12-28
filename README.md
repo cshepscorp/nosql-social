@@ -32,7 +32,7 @@
   Node.js\
   Express.js\
   MongoDB\
-  Mongoose\
+  Mongoose
 
   <a name="license"></a>
   ## License
