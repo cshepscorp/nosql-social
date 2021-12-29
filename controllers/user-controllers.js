@@ -72,7 +72,7 @@ const userController = {
                     // remove any of this users thoughts
                     Thought.deleteMany({ username: dbUserData.username })
                     .then(() => {
-                        res.json({ message: 'Successfully deleted user' }); 
+                        res.json({ message: 'Successfully deleted user and their thoughts' }); 
                     })
                     .catch(err => { res.json(err) })
                 })
@@ -106,10 +106,10 @@ const userController = {
             { new: true, runValidators: true })
             .then(dbUserData => {
             if(!dbUserData){
-                res.json({ message: 'no User with that id found'})
+                res.json({ message: 'no Friend with that id was found'})
                 return;
             }
-            res.json(dbUserData)
+            res.json({ message: 'Friend was successfully deleted'})
             }).catch(err => {
             res.json(err)
             })

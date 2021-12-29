@@ -67,11 +67,6 @@ const thoughtControllers = {
 
     // delete a reaction to a thought
     deleteReaction({ params }, res) {
-        console.log('=======thought Id========');
-        console.log(params.thoughtId);
-        console.log('=======reaction Id========');
-        console.log(params.reactionId)
-        console.log('===============');
         Thought.findOneAndUpdate(
             { _id: params.thoughtId }, 
             { $pull: { reactions: { reactionId: params.reactionId } } }, 
@@ -81,7 +76,7 @@ const thoughtControllers = {
                 res.json({ message: 'no thought with that id found' })
                 return;
             }
-            res.json(dbThoughtData);
+            res.json({ message: 'Reaction was successfully deleted' });
             }).catch(err => {
             res.json(err)
             })
@@ -112,7 +107,7 @@ const thoughtControllers = {
                 res.json({ message: 'No thought with that id was found'})
                 return;
             }
-            res.json(dbThoughtData)
+            res.json({ message: 'Thought was successfully deleted'})
             }).catch(err => res.json(err))
     }
 
